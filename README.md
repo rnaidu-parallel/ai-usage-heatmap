@@ -163,6 +163,8 @@ Daily totals always reach the renderer. For tokscale exports, client display nam
 
 This tool has no server, no account, and no network calls. With no `--input`, it spawns only your locally installed tracker binaries: `tokscale` and `ccusage`.
 
+If you are happy submitting your usage to a leaderboard, tokscale has its own hosted profile embed and it is good. This tool is the local alternative: it reads the export and stops.
+
 Icons are from Simple Icons under CC0. Logos are trademarks of their owners.
 
 ## Flags
