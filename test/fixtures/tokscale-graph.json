@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "generatedAt": "2026-07-09T12:00:00.000Z",
+    "version": "4.3.0",
+    "dateRange": {
+      "start": "2026-07-01",
+      "end": "2026-07-07"
+    }
+  },
+  "summary": {
+    "tokens": 8500,
+    "cost": 12.34
+  },
+  "years": [],
+  "contributions": [
+    {
+      "date": "2026-07-01",
+      "totals": {
+        "tokens": 1000,
+        "cost": 1.25,
+        "messages": 8
+      },
+      "intensity": 2,
+      "tokenBreakdown": {
+        "input": 100,
+        "output": 200,
+        "cacheRead": 650,
+        "cacheWrite": 45,
+        "reasoning": 5
+      },
+      "clients": [
+        {
+          "client": "claude",
+          "modelId": "synthetic-opus",
+          "cost": 1.25
+        }
+      ]
+    },
+    {
+      "date": "2026-07-03",
+      "totals": {
+        "tokens": 2500,
+        "cost": 3.75,
+        "messages": 14
+      },
+      "intensity": 3,
+      "tokenBreakdown": {
+        "input": 300,
+        "output": 500,
+        "cacheRead": 1500,
+        "cacheWrite": 180,
+        "reasoning": 20
+      },
+      "clients": [
+        {
+          "client": "tokscale",
+          "modelId": "synthetic-sonnet",
+          "cost": 3.75
+        }
+      ]
+    },
+    {
+      "date": "2026-07-04",
+      "totals": {
+        "tokens": 0,
+        "cost": 0,
+        "messages": 0
+      },
+      "intensity": 0,
+      "tokenBreakdown": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 0
+      },
+      "clients": []
+    },
+    {
+      "date": "2026-07-07",
+      "totals": {
+        "tokens": 5000,
+        "cost": 7.34,
+        "messages": 20
+      },
+      "intensity": 4,
+      "tokenBreakdown": {
+        "input": 700,
+        "output": 500,
+        "cacheRead": 3200,
+        "cacheWrite": 550,
+        "reasoning": 50
+      },
+      "clients": [
+        {
+          "client": "claude",
+          "modelId": "synthetic-haiku",
+          "cost": 7.34
+        }
+      ]
+    }
+  ],
+  "timeMetrics": {
+    "activeSeconds": 3600
+  }
+}

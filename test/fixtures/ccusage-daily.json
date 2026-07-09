@@ -1,0 +1,77 @@
+{
+  "daily": [
+    {
+      "period": "2026-07-01",
+      "inputTokens": 100,
+      "outputTokens": 50,
+      "cacheCreationTokens": 20,
+      "cacheReadTokens": 830,
+      "totalTokens": 1000,
+      "modelBreakdowns": [
+        {
+          "model": "synthetic-opus",
+          "inputTokens": 100
+        }
+      ],
+      "modelsUsed": ["synthetic-opus"],
+      "agent": "claude",
+      "metadata": {
+        "cost": 1.25
+      }
+    },
+    {
+      "period": "2026-07-03",
+      "inputTokens": 200,
+      "outputTokens": 100,
+      "cacheCreationTokens": 300,
+      "cacheReadTokens": 900,
+      "totalTokens": 1500,
+      "modelBreakdowns": [],
+      "modelsUsed": ["synthetic-sonnet"],
+      "agent": "claude",
+      "metadata": {
+        "cost": 2.5
+      }
+    },
+    {
+      "period": "2026-07-03T18:00:00.000Z",
+      "inputTokens": 40,
+      "outputTokens": 60,
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 900,
+      "totalTokens": 1000,
+      "modelBreakdowns": [],
+      "modelsUsed": ["synthetic-codex"],
+      "agent": "codex",
+      "metadata": {
+        "cost": 1.25
+      }
+    },
+    {
+      "period": "2026-07-04",
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "cacheCreationTokens": 0,
+      "cacheReadTokens": 0,
+      "totalTokens": 0,
+      "modelBreakdowns": [],
+      "modelsUsed": [],
+      "agent": "claude",
+      "metadata": {}
+    },
+    {
+      "period": "2026-07-07",
+      "inputTokens": 700,
+      "outputTokens": 500,
+      "cacheCreationTokens": 600,
+      "cacheReadTokens": 3200,
+      "totalTokens": 5000,
+      "modelBreakdowns": [],
+      "modelsUsed": ["synthetic-haiku"],
+      "agent": "claude",
+      "metadata": {
+        "cost": 7.34
+      }
+    }
+  ]
+}
