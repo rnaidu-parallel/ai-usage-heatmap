@@ -32,7 +32,16 @@
         {
           "client": "claude",
           "modelId": "synthetic-opus",
-          "cost": 1.25
+          "providerId": "anthropic",
+          "tokens": {
+            "input": 100,
+            "output": 200,
+            "cacheRead": 650,
+            "cacheWrite": 45,
+            "reasoning": 5
+          },
+          "cost": 1.25,
+          "messages": 8
         }
       ]
     },
@@ -53,9 +62,32 @@
       },
       "clients": [
         {
-          "client": "tokscale",
+          "client": "codex",
           "modelId": "synthetic-sonnet",
-          "cost": 3.75
+          "providerId": "openai",
+          "tokens": {
+            "input": 200,
+            "output": 300,
+            "cacheRead": 950,
+            "cacheWrite": 40,
+            "reasoning": 10
+          },
+          "cost": 2.25,
+          "messages": 8
+        },
+        {
+          "client": "qwen",
+          "modelId": "synthetic-qwen",
+          "providerId": "alibaba",
+          "tokens": {
+            "input": 100,
+            "output": 200,
+            "cacheRead": 550,
+            "cacheWrite": 140,
+            "reasoning": 10
+          },
+          "cost": 1.5,
+          "messages": 6
         }
       ]
     },
@@ -74,7 +106,13 @@
         "cacheWrite": 0,
         "reasoning": 0
       },
-      "clients": []
+      "clients": [
+        {
+          "client": "broken-client-row",
+          "modelId": "synthetic-malformed",
+          "cost": 0
+        }
+      ]
     },
     {
       "date": "2026-07-07",
@@ -95,7 +133,30 @@
         {
           "client": "claude",
           "modelId": "synthetic-haiku",
-          "cost": 7.34
+          "providerId": "anthropic",
+          "tokens": {
+            "input": 400,
+            "output": 300,
+            "cacheRead": 2000,
+            "cacheWrite": 280,
+            "reasoning": 20
+          },
+          "cost": 4.4,
+          "messages": 12
+        },
+        {
+          "client": "cursor",
+          "modelId": "synthetic-gpt",
+          "providerId": "openai",
+          "tokens": {
+            "input": 300,
+            "output": 200,
+            "cacheRead": 1200,
+            "cacheWrite": 270,
+            "reasoning": 30
+          },
+          "cost": 2.94,
+          "messages": 8
         }
       ]
     }

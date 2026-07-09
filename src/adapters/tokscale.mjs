@@ -26,6 +26,43 @@ function metricTotal(entry, metric, index) {
   throw new Error('Invalid metric: expected total or io');
 }
 
+function clientTotal(row, metric) {
+  if (row === null || typeof row !== 'object' || Array.isArray(row)) return null;
+  if (typeof row.client !== 'string' || row.client.trim() === '') return null;
+  const tokens = row.tokens;
+  if (tokens === null || typeof tokens !== 'object' || Array.isArray(tokens)) return null;
+
+  const fields = [
+    tokens.input,
+    tokens.output,
+    tokens.cacheRead,
+    tokens.cacheWrite,
+    tokens.reasoning
+  ];
+  if (fields.some((value) => typeof value !== 'number' || !Number.isFinite(value) || value < 0)) return null;
+
+  return {
+    name: row.client.trim(),
+    total: metric === 'io' ? tokens.input + tokens.output : fields.reduce((sum, value) => sum + value, 0)
+  };
+}
+
+function clientsFor(contributions, metric) {
+  const clients = new Map();
+  contributions.forEach((entry) => {
+    if (!Array.isArray(entry?.clients)) return;
+    entry.clients.forEach((row) => {
+      const parsed = clientTotal(row, metric);
+      if (!parsed) return;
+      clients.set(parsed.name, (clients.get(parsed.name) ?? 0) + parsed.total);
+    });
+  });
+  return [...clients.entries()]
+    .filter(([, total]) => total > 0)
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([name, total]) => ({ name, total }));
+}
+
 function dateRangeFor(series) {
   if (series.length === 0) return null;
   return { start: series[0].date, end: series.at(-1).date };
@@ -61,7 +98,8 @@ export function parseTokscaleUsage(raw, options = {}) {
     stats: {
       days: series.length,
       dateRange: dateRangeFor(series),
-      generatedAt: typeof parsed?.meta?.generatedAt === 'string' ? parsed.meta.generatedAt : undefined
+      generatedAt: typeof parsed?.meta?.generatedAt === 'string' ? parsed.meta.generatedAt : undefined,
+      clients: clientsFor(parsed.contributions, metric)
     }
   };
 }

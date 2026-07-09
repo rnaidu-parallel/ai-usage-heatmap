@@ -7,9 +7,9 @@
 
 Show your AI usage on your GitHub profile, powered by the tracker you already use.
 
-`ai-usage-heatmap` is a zero-dependency Node CLI that turns local exports from [tokscale](https://github.com/junhoyeo/tokscale) or [ccusage](https://github.com/ryoppippi/ccusage) into GitHub-contribution-style SVG files. It does not count raw agent logs. Counting stays in the tracker you trust. This tool renders the daily totals and helps you publish them.
+`ai-usage-heatmap` is a zero-dependency Node CLI that turns local exports from [tokscale](https://github.com/junhoyeo/tokscale) or [ccusage](https://github.com/ryoppippi/ccusage) into GitHub-contribution-style SVG files with a compact stats header. It does not count raw agent logs. Counting stays in the tracker you trust. This tool renders the daily totals and helps you publish them.
 
-No server, no signup, and only daily aggregate totals ever reach the SVG.
+No server, no signup, and only daily aggregate totals plus optional client display totals ever reach the SVG.
 
 ## What it is
 
@@ -26,6 +26,10 @@ It writes:
 - `assets/ai-usage-dark.svg`
 - `assets/ai-usage-light.svg`
 - the `<picture>` snippet for your README
+
+## What's on the card
+
+The card shows all-time, last 30 days, last 7 days, today, and active-day totals above the calendar grid. If a tokscale export includes a client split, the header also shows compact agent totals with icons. ccusage and BYO JSON sources render the same stat tiles without the agent row.
 
 ## Quickstart
 
@@ -155,14 +159,16 @@ Set this in `~/.claude/settings.json`:
 
 ## Privacy
 
-Only `date` and `total` reach the renderer. No client names, model IDs, costs, file paths, project names, prompts, responses, or raw tracker metadata are written to the SVGs.
+Daily totals always reach the renderer. For tokscale exports, client display names and aggregated client totals may also reach the SVG so the agent row can render. Model IDs, provider IDs, costs, message counts, file paths, project names, prompts, responses, and raw tracker metadata are not written to the SVGs.
 
 This tool has no server, no account, and no network calls. With no `--input`, it spawns only your locally installed tracker binaries: `tokscale` and `ccusage`.
+
+Icons are from Simple Icons under CC0. Logos are trademarks of their owners.
 
 ## Flags
 
 ```sh
-npx ai-usage-heatmap render [--source auto|tokscale|ccusage|json] [--input usage.json] [--out-dir assets] [--weeks 52] [--metric total|io] [--no-caption] [--today YYYY-MM-DD]
+npx ai-usage-heatmap render [--source auto|tokscale|ccusage|json] [--input usage.json] [--out-dir assets] [--weeks 52] [--metric total|io] [--no-caption] [--heatmap-only] [--today YYYY-MM-DD]
 ```
 
 - `--source auto|tokscale|ccusage|json`: choose a source. Default: `auto`.
@@ -171,6 +177,7 @@ npx ai-usage-heatmap render [--source auto|tokscale|ccusage|json] [--input usage
 - `--weeks`: number of weeks in the heatmap window, from 1 to 520. Default: `52`.
 - `--metric total|io`: cache-inclusive total or input/output only. Default: `total`.
 - `--no-caption`: suppress the bottom-left caption.
+- `--heatmap-only`: suppress the header and render the original heatmap-only layout.
 - `--today`: pin the render date for tests or reproducible demos.
 
 ```sh

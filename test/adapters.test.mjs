@@ -23,7 +23,13 @@ test('tokscale adapter parses total metric and skips zero-total days', async () 
   assert.deepEqual(result.stats, {
     days: 3,
     dateRange: { start: '2026-07-01', end: '2026-07-07' },
-    generatedAt: '2026-07-09T12:00:00.000Z'
+    generatedAt: '2026-07-09T12:00:00.000Z',
+    clients: [
+      { name: 'claude', total: 4000 },
+      { name: 'cursor', total: 2000 },
+      { name: 'codex', total: 1500 },
+      { name: 'qwen', total: 1000 }
+    ]
   });
 });
 
@@ -35,6 +41,35 @@ test('tokscale adapter supports io metric', async () => {
     { date: '2026-07-03', total: 800 },
     { date: '2026-07-07', total: 1200 }
   ]);
+  assert.deepEqual(result.stats.clients, [
+    { name: 'claude', total: 1000 },
+    { name: 'codex', total: 500 },
+    { name: 'cursor', total: 500 },
+    { name: 'qwen', total: 300 }
+  ]);
+});
+
+test('tokscale adapter skips malformed client rows without relaxing daily validation', () => {
+  const result = parseTokscaleUsage(JSON.stringify({
+    contributions: [
+      {
+        date: '2026-07-01',
+        totals: { tokens: 10 },
+        tokenBreakdown: { input: 1, output: 2 },
+        clients: [
+          { client: 'claude', tokens: { input: 1, output: 2, cacheRead: 3, cacheWrite: 4, reasoning: 0 } },
+          { client: 'broken', tokens: { input: 1, output: -1, cacheRead: 0, cacheWrite: 0, reasoning: 0 } },
+          { client: 'also-broken' }
+        ]
+      }
+    ]
+  }), { metric: 'total' });
+
+  assert.deepEqual(result.stats.clients, [{ name: 'claude', total: 10 }]);
+  assert.throws(
+    () => parseTokscaleUsage('{"contributions":[{"date":"2026-07-01","totals":{"tokens":1},"tokenBreakdown":{"input":-1,"output":0}}]}', { metric: 'io' }),
+    /non-negative/
+  );
 });
 
 test('tokscale adapter rejects bad shapes and duplicate dates', () => {

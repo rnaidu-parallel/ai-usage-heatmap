@@ -55,6 +55,9 @@ test('cli render smoke writes both SVGs from tokscale input and prints snippet',
 
   const dark = await readFile(join(outDir, 'ai-usage-dark.svg'), 'utf8');
   assert.match(dark, /AI token usage heatmap/);
+  assert.match(dark, /AI token usage/);
+  assert.match(dark, /ALL TIME/);
+  assert.match(dark, /<title>claude<\/title>/);
   assert.match(dark, /AI tokens incl\. cache · updated 2026-07-09/);
 });
 
@@ -76,6 +79,33 @@ test('cli render supports ccusage input', async () => {
   assert.match(stderr, /Source: ccusage daily --json/);
   await access(join(outDir, 'ai-usage-dark.svg'));
   await access(join(outDir, 'ai-usage-light.svg'));
+
+  const dark = await readFile(join(outDir, 'ai-usage-dark.svg'), 'utf8');
+  assert.match(dark, /AI token usage/);
+  assert.match(dark, /ALL TIME/);
+  assert.doesNotMatch(dark, /<path d="/);
+});
+
+test('cli render supports heatmap-only output', async () => {
+  const outDir = await mkdtemp(join(tmpdir(), 'ai-usage-heatmap-out-'));
+  await execFileAsync(process.execPath, [
+    cli,
+    'render',
+    '--source',
+    'tokscale',
+    '--input',
+    tokscale,
+    '--today',
+    '2026-07-09',
+    '--heatmap-only',
+    '--out-dir',
+    outDir
+  ]);
+
+  const dark = await readFile(join(outDir, 'ai-usage-dark.svg'), 'utf8');
+  assert.doesNotMatch(dark, />AI token usage<\/text>/);
+  assert.doesNotMatch(dark, /ALL TIME/);
+  assert.doesNotMatch(dark, /<title>claude<\/title>/);
 });
 
 test('cli render io metric caption states input plus output', async () => {

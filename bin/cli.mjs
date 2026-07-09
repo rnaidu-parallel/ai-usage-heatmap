@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { isDateString, todayDateString } from '../src/date.mjs';
 import { doctorReport } from '../src/doctor.mjs';
-import { renderHeatmap } from '../src/render.mjs';
+import { renderHeatmap, windowStatsForSeries } from '../src/render.mjs';
 import { initText, pictureSnippet } from '../src/snippet.mjs';
 import { resolveUsageSource } from '../src/sources.mjs';
 
@@ -14,7 +14,7 @@ const COMMANDS = new Set(['render', 'init', 'doctor']);
 
 function usage() {
   return `Usage:
-  ai-usage-heatmap render [--source auto|tokscale|ccusage|json] [--input file] [--out-dir assets] [--weeks 52] [--metric total|io] [--no-caption] [--today YYYY-MM-DD]
+  ai-usage-heatmap render [--source auto|tokscale|ccusage|json] [--input file] [--out-dir assets] [--weeks 52] [--metric total|io] [--no-caption] [--heatmap-only] [--today YYYY-MM-DD]
   ai-usage-heatmap init [--out-dir assets]
   ai-usage-heatmap doctor`;
 }
@@ -50,6 +50,7 @@ function renderOptions(args) {
       weeks: { type: 'string', default: '52' },
       metric: { type: 'string', default: 'total' },
       'no-caption': { type: 'boolean', default: false },
+      'heatmap-only': { type: 'boolean', default: false },
       today: { type: 'string' }
     },
     allowPositionals: false
@@ -72,6 +73,7 @@ function renderOptions(args) {
     weeks: parseWeeks(parsed.weeks),
     metric: parsed.metric,
     caption: parsed['no-caption'] ? false : undefined,
+    heatmapOnly: parsed['heatmap-only'],
     today: parsed.today
   };
 }
@@ -88,7 +90,10 @@ async function renderCommand(args) {
   const renderBase = {
     weeks: options.weeks,
     caption: options.caption === false ? false : defaultCaption(options.metric, options.today ?? todayDateString()),
-    today: options.today
+    today: options.today,
+    stats: windowStatsForSeries(series, options.today ?? todayDateString()),
+    clients: stats.clients,
+    header: !options.heatmapOnly
   };
   const darkSvg = renderHeatmap(series, { ...renderBase, theme: 'dark' });
   const lightSvg = renderHeatmap(series, { ...renderBase, theme: 'light' });
