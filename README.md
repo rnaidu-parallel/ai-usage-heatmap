@@ -1,13 +1,13 @@
 # ai-usage-heatmap
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/ai-usage-dark.svg">
-  <img src="assets/ai-usage-light.svg" alt="AI token usage heatmap">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rnaidu-parallel/ai-usage-heatmap/master/assets/ai-usage-dark.svg">
+  <img src="https://raw.githubusercontent.com/rnaidu-parallel/ai-usage-heatmap/master/assets/ai-usage-light.svg" alt="AI token usage heatmap">
 </picture>
 
 Show your AI usage on your GitHub profile, powered by the tracker you already use.
 
-`ai-usage-heatmap` is a zero-dependency Node CLI that turns local exports from [tokscale](https://github.com/cezaraugusto/tokscale) or [ccusage](https://github.com/ryoppippi/ccusage) into GitHub-contribution-style SVG files. It does not count raw agent logs. Counting stays in the tracker you trust. This tool renders the daily totals and helps you publish them.
+`ai-usage-heatmap` is a zero-dependency Node CLI that turns local exports from [tokscale](https://github.com/junhoyeo/tokscale) or [ccusage](https://github.com/ryoppippi/ccusage) into GitHub-contribution-style SVG files. It does not count raw agent logs. Counting stays in the tracker you trust. This tool renders the daily totals and helps you publish them.
 
 No server, no signup, and only daily aggregate totals ever reach the SVG.
 

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { access, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, mkdtemp, readFile, symlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFile } from 'node:child_process';
@@ -97,6 +97,31 @@ test('cli render io metric caption states input plus output', async () => {
 
   const dark = await readFile(join(outDir, 'ai-usage-dark.svg'), 'utf8');
   assert.match(dark, /AI tokens in\+out · updated 2026-07-09/);
+});
+
+test('cli runs when invoked through an npm-style symlink', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'ai-usage-heatmap-symlink-'));
+  const link = join(dir, 'ai-usage-heatmap');
+  const outDir = join(dir, 'assets');
+  await symlink(cli, link);
+
+  const { stdout } = await execFileAsync(process.execPath, [
+    link,
+    'render',
+    '--source',
+    'json',
+    '--input',
+    byo,
+    '--today',
+    '2026-07-09',
+    '--out-dir',
+    outDir
+  ]);
+
+  assert.match(stdout, /<picture>/);
+  assert.match(stdout, /ai-usage-dark\.svg/);
+  await access(join(outDir, 'ai-usage-dark.svg'));
+  await access(join(outDir, 'ai-usage-light.svg'));
 });
 
 test('cli render keeps render validation errors unmasked', async () => {
